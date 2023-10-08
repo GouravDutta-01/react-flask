@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 
 const Form = (props) => {
-    // let {mode} = props;
   const [isLoading, setIsloading] = useState(false);
   const [formData, setFormData] = useState({
     Year:'', 
@@ -21,12 +20,12 @@ const handleChange = (event) => {
     let inputData = {...formData};
     inputData[name]=value;
     setFormData(inputData);
-    // console.log(inputData)
 }
 
 const handlePredictClick = () => {
-    const url = "http://127.0.0.1:5001/predict/";
+    const url = "http://localhost:5001/predict";
     setIsloading(true);
+    const jsonData = JSON.stringify(formData);
     fetch(url,
     {
         headers: {
@@ -34,18 +33,14 @@ const handlePredictClick = () => {
         'Content-Type': 'application/json'
         },
         method: 'POST',
-        body: JSON.stringify(formData)
+        body: jsonData
     })  
     .then(response => response.json())
     .then(response => {
-        setResult(response.result);
+        setResult(response.Prediction);
         setIsloading(false);
     });
 }
-
-// const handleCancelClick = (event) => {
-//     setResult("");
-// }
 
   return (
     <>
